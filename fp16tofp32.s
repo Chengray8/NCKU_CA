@@ -63,9 +63,9 @@ continue:
 
     sll  t4, t4, t0
     srli t4, t4,  3           # (nonsign << renorm_shift >> 3)
-    addi t0, t0, 0b110010000
-    xori t0, t0, 0b111111111
-    addi t0, t0,  1
+    addi t0, t0, 0b110010000  # Original: (0x70 - renorm_shift) << 23)
+    xori t0, t0, 0b111111111  # First, calculate renorm_shift - 0x70, then take the two's complement.
+    addi t0, t0,  1           # 2'complement of 0x70 is 110010000 in 9 bit.
     slli t0, t0, 23
     add  t0, t0, t4           # add: Both of above
     or   t0, t0, t1           # | inf_nan_mask
